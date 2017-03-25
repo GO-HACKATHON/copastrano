@@ -1,4 +1,4 @@
-class Api::ContainersController < Api::ApiController
+class Api::V1::ContainersController < Api::V1::ApiController
 
   def list
     @containers = Container.where(deployment_id: params[:id])

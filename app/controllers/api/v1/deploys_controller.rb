@@ -1,4 +1,4 @@
-class Api::DeploysController < Api::ApiController
+class Api::V1::DeploysController < Api::V1::ApiController
 
   def index
     @deployments = Deployment.all
