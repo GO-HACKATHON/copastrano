@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170325070323) do
+ActiveRecord::Schema.define(version: 20170325085758) do
 
   create_table "containers", force: :cascade do |t|
     t.integer  "deployment_id"
@@ -25,6 +25,13 @@ ActiveRecord::Schema.define(version: 20170325070323) do
     t.string   "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "histories", force: :cascade do |t|
+    t.integer  "container_id"
+    t.string   "status"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
   end
 
   create_table "yml_files", force: :cascade do |t|

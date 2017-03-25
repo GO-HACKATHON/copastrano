@@ -9,5 +9,11 @@ Rails.application.routes.draw do
         get 'detail/:id', to: 'deploys#detail'
       end
     end
+
+    resources :containers do
+      collection do
+        get 'list/:id', to: 'containers#list'
+      end
+    end
   end
 end

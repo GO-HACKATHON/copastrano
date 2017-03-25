@@ -69,7 +69,6 @@ class Api::DeploysController < Api::ApiController
     #call service
     #insert db
     render json: {status: 200, message: 'Deploy Successful'}
-
   end
 
   def history
