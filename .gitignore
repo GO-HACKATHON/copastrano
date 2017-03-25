@@ -3,3 +3,5 @@
 /log
 /db/*.sqlite3
 .idea/*
+/repo
+/public/deployment/*
