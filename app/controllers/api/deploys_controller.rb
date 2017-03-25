@@ -73,6 +73,6 @@ class Api::DeploysController < Api::ApiController
   end
 
   def history
-    
+
   end
 end
