@@ -1,0 +1,11 @@
+<form action="<%= save_init_admin_deploys_path %>" method="post" enctype="multipart/form-data">
+  <%= hidden_field_tag :authenticity_token, form_authenticity_token -%>
+  <label>YML File</label>
+  <input type="file" name="yml">
+  <br />
+  <br />
+  <label>Git Repo</label>
+  <input type="text" name="git_repo_url">
+  <br /><br>
+  <input type="submit" value="Save">
+</form>

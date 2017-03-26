@@ -1,0 +1,23 @@
+<p>Deployment List</p>
+<table>
+  <thead>
+    <tr>
+      <th>No</th>
+      <th>Name</th>
+      <th>Status</th>
+      <th>Created At</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% i = 0 %>
+    <% @deployments.each do |d| %>
+    <% i = i + 1 %>
+    <tr>
+      <td><%= i %></td>
+      <td><%= link_to deploys_path(d.id), d.name %></td>
+      <td><%= d.status %></td>
+      <td><%= d.created_at %></td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>

@@ -1,0 +1,22 @@
+<h1>Deployment</h1>
+
+<table>
+	<thead>
+		<tr>
+			<th>Id</th>
+			<th>Name</th>
+			<th>Status</th>
+			<th>Action</th>
+		</tr>
+	</thead>
+	<tbody>
+		<% @deployments.each do |d| %>
+		<tr>
+			<td><%=d.id%></td>
+			<td><%=d.name%></td>
+			<td><%=d.status%></td>
+			<td><%=link_to("detail", deployment_containers_path(d.id))%></td>
+		</tr>
+		<% end %>
+	</tbody>
+</table>

@@ -1,0 +1,27 @@
+<h1>Container</h1>
+
+<table>
+	<thead>
+		<tr>
+			<th>Id</th>
+			<th>Deployment Name</th>
+			<th>Name</th>
+			<th>Image</th>
+			<th>Action</th>
+		</tr>
+	</thead>
+	<tbody>
+		<% @containers.each do |c| %>
+		<tr>
+			<td><%=c.id%></td>
+			<td><%=@deployment.name%></td>
+			<td><%=c.name%></td>
+			<td><%=c.image%></td>
+			<td><%=link_to("Deploy", edit_deployment_container_path(@deployment.id, c.id))%></td>
+		</tr>
+		<% end %>
+	</tbody>
+</table>
+
+<br />
+<%=link_to("Back to Deployment", deployment_index_path)%>

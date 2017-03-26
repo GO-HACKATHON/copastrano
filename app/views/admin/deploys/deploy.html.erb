@@ -1,0 +1,13 @@
+<form action="<%= deploy_do_admin_deploys_path %>" method="post">
+  <%= hidden_field_tag :authenticity_token, form_authenticity_token -%>
+  <input type="hidden" value="<%= @deployment_id %>" name="deployment_id">
+  <label>Choose Image</label>
+  <select name="container_id">
+    <option value="">Choose Image</option>
+    <% @containers.each do |c| %>
+    <option value="<%= c.id %>"><%= c.name %></option>
+    <% end %>
+  </select>
+  <br />
+  <input type="submit" value="Deploy">
+</form>

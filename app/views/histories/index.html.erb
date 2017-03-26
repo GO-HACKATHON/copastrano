@@ -1,0 +1,22 @@
+<h1>Histories</h1>
+
+<table>
+	<thead>
+		<tr>
+			<th>Id</th>
+			<th>Container Name</th>
+			<th>Status</th>
+			<th>Image Tag</th>
+		</tr>
+	</thead>
+	<tbody>
+		<% @histories.each do |d| %>
+		<tr>
+			<td><%=@container.name%></td>
+			<td><%=d.name%></td>
+			<td><%=d.status%></td>
+			<td><%=d.image_tag%></td>
+		</tr>
+		<% end %>
+	</tbody>
+</table>
