@@ -15,7 +15,7 @@ class DockerService
 		   $stdout.puts v
 		end
 
-		image.push(@cert) do |v|
+		image.push(@cert, repo_tag: @tag) do |v|
 			 $stdout.puts v
 		end
 	end

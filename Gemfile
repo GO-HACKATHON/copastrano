@@ -44,6 +44,10 @@ gem 'rack-cors', :require => 'rack/cors'
 gem 'git'
 # Docker
 gem 'docker-api'
+# HTTP Client
+gem 'rest-client'
+# Backgroun Job
+gem 'delayed_job_active_record'
 
 
 gem 'activeadmin', git: 'https://github.com/activeadmin/activeadmin'
