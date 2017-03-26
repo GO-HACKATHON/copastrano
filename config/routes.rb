@@ -7,6 +7,7 @@ Rails.application.routes.draw do
       collection do
         post 'initial', to: 'deploys#initial'
         get 'detail/:id', to: 'deploys#detail'
+        post '/deployment/:deployment_id/container/:container_id', to: 'deploys#deploy'
       end
     end
 

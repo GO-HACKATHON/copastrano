@@ -12,6 +12,9 @@ module Copastrano
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
 
+    # Active Job Adapter
+    config.active_job.queue_adapter = :delayed_job
+
     if Rails.env.development?
       config.before_configuration do
         env_file = File.join(Rails.root, 'config', 'application.yml')
