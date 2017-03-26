@@ -41,6 +41,7 @@ class Api::V1::DeploysController < Api::V1::ApiController
       @deployment.name = content['metadata']['name']
       @deployment.status = 'New'
       @deployment.repo_name = params[:git_repo_url].split('/')[4].split('.')[0]
+      @deployment.repo_uri = params[:git_repo_url]
 
       cont_arr = Array.new
       content['spec']['template']['spec']['containers'].each do |r|
@@ -52,7 +53,7 @@ class Api::V1::DeploysController < Api::V1::ApiController
 
       if @deployment.save
         #Upload YMl File
-        file_name = "development-#{Time.now.to_i}.yml"
+        file_name = "deployment-#{Time.now.to_i}.yml"
         directory = "#{ENV['YML_DIR']}/#{@deployment.id}"
         FileUtils.mkdir_p(directory) unless File.directory?(directory)
         path = File.join(directory, file_name)
@@ -64,7 +65,11 @@ class Api::V1::DeploysController < Api::V1::ApiController
         @yml.yml_path = path
         @yml.save
 
-        GitCloneJob.perform_later(params[:git_repo_url], @deployment.id)
+        # GitCloneJob.perform_later(params[:git_repo_url], @deployment.id)
+        repo_path = "./repo/#{@deployment.id}"
+        FileUtils.mkdir_p(repo_path) unless File.directory?(repo_path)
+        git = GitService.new(params[:git_repo_url], "master", repo_path)
+        git.clone
 
         render json: {status: 200, message: 'Initial Deploy Successful'}
       else
@@ -73,8 +78,6 @@ class Api::V1::DeploysController < Api::V1::ApiController
     rescue => e
       render json: {status: 500, message: "YML file is not valid : #{e}"}
     end
-
-
   end
 
   def deploy
@@ -106,7 +109,7 @@ class Api::V1::DeploysController < Api::V1::ApiController
     deployment.save
 
     # 3. Build image and push
-    docker = DockerService.new(deployment.repo_name, new_tag, {:username => 'adityapra', :password => 'Hijup123', :email => 'aditya@hijup.com'}, path)
+    docker = DockerService.new(deployment.repo_name, new_tag, {:username => ENV['DOCKER_USER'], :password => ENV['DOCKER_PASSWORD'], :email => ENV['DOCKER_EMAIL']}, path)
     docker.build_and_push_image
 
     deployment.status = 'docker-build'
@@ -119,11 +122,14 @@ class Api::V1::DeploysController < Api::V1::ApiController
     deployment.save
 
     # 5. Deploy
-    k8s = KubernetesService.new("https://api.dev.hijup.com", {:username => 'admin', :password => 'GZoD1VFTdFQ8ryam8uwXuWzX02zqS5d3'}, 'default')
+    k8s = KubernetesService.new(ENV['K8S_URI'], {:username => ENV['K8S_USER'], :password => ENV['K8S_PASSWORD']}, 'default')
     if container.histories.count > 0
-      k8s.replace_deployment(yaml.to_yaml, deployment.name)
+      k = k8s.replace_deployment(yaml.to_yaml, deployment.name)
     else
-      k8s.create_deployment(yaml.to_yaml)
+      is_conflict = k8s.create_deployment(yaml.to_yaml)
+      if !is_conflict
+        k8s.replace_deployment(yaml.to_yaml, deployment.name)
+      end
     end
 
     deployment.status = 'deployed'
