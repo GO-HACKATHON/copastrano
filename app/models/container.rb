@@ -1,4 +1,4 @@
 class Container < ActiveRecord::Base
   belongs_to :deployment
-  has_many :history
+  has_many :histories
 end
