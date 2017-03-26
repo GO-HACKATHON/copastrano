@@ -33,8 +33,9 @@ class Api::V1::DeploysController < Api::V1::ApiController
 
 
   def initial
-    file = File.read(params[:yml].tempfile)
+    puts params
     begin
+      file = File.read(params[:yml].tempfile)
       content = YAML::load(file)
 
       @deployment = Deployment.new
@@ -69,7 +70,7 @@ class Api::V1::DeploysController < Api::V1::ApiController
         render json: {status: 500, message: @metadata.errors.full_messages.to_s}
       end
     rescue => e
-      render json: {status: 500, message: 'YML file is not valid'}
+      render json: {status: 500, message: e.to_s}
     end
 
 

@@ -38,11 +38,16 @@ gem 'jbuilder', '~> 2.5'
 
 gem 'unicorn'
 gem 'unicorn-worker-killer'
+gem 'rack-cors', :require => 'rack/cors'
 
 # GIT
 gem 'git'
 # Docker
 gem 'docker-api'
+
+
+gem 'activeadmin', git: 'https://github.com/activeadmin/activeadmin'
+gem "active_material", github: "vigetlabs/active_material"
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
